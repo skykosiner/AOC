@@ -1,8 +1,8 @@
 package main
 
-import dayone "github.com/skykosiner/AOC/pkg/day-one"
+import daytwo "github.com/skykosiner/AOC/pkg/day-two"
 
 func main() {
-	dayone.PartOne()
-	dayone.PartTwo()
+	daytwo.PartOne()
+	daytwo.PartTwo()
 }
