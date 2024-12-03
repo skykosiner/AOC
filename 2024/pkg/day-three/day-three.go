@@ -52,12 +52,42 @@ func PartTwo() {
 	}
 
 	for _, line := range lines {
-		seen := make([]string, 0)
 		enabled := true
-		for _, char := range strings.Split(line, "") {
+		regex := regexp.MustCompile(`mul\(\d{1,3},\d{1,3}\)|do\(\)|don't\(\)`)
+		matches := regex.FindAllString(line, -1)
+
+		if matches != nil {
+			for _, item := range matches {
+				switch item {
+				case "don't()":
+					enabled = false
+				case "do()":
+					enabled = true
+				default:
+					if enabled {
+						mul := strings.TrimPrefix(item, "mul(")
+						mul = strings.TrimSuffix(mul, ")")
+						nums := strings.Split(mul, ",")
+						if len(nums) == 2 {
+							num1, err := strconv.Atoi(nums[0])
+							if err != nil {
+								slog.Error("Failed to parse number", "number", nums[0], "error", err)
+								continue
+							}
+							num2, err := strconv.Atoi(nums[1])
+							if err != nil {
+								slog.Error("Failed to parse number", "number", nums[1], "error", err)
+								continue
+							}
+							numsToTimes = append(numsToTimes, []int{num1, num2})
+						}
+					}
+				}
+			}
 		}
 	}
 
+	// Calculate the sum of the products
 	for _, nums := range numsToTimes {
 		sum += nums[0] * nums[1]
 	}
