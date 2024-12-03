@@ -7,34 +7,27 @@ import (
 	"github.com/skykosiner/AOC/pkg/utils"
 )
 
-func PartOne() {
-	var sum int
+func main() {
+	var sum1 int
+	var sum2 int
+
 	lines := utils.ReadFile("./input")
-
-	for _, line := range lines {
-		regex := regexp.MustCompile(`mul\([0-9]+,[0-9]+\)`)
-		matches := regex.FindAllStringIndex(line, -1)
-
-		for _, match := range matches {
-			mul := line[match[0]:match[1]]
-			nums := utils.ExtractNums(mul)
-			sum += nums[0] * nums[1]
-		}
-	}
-
-	fmt.Println(sum)
-}
-
-func PartTwo() {
-	var sum int
-	lines := utils.ReadFile("./input")
+	regex1 := regexp.MustCompile(`mul\([0-9]+,[0-9]+\)`)
+	regex2 := regexp.MustCompile(`mul\(\d{1,3},\d{1,3}\)|do\(\)|don't\(\)`)
 	enabled := true
 
 	for _, line := range lines {
-		regex := regexp.MustCompile(`mul\(\d{1,3},\d{1,3}\)|do\(\)|don't\(\)`)
-		matches := regex.FindAllString(line, -1)
+		matchesOne := regex1.FindAllStringIndex(line, -1)
 
-		for _, item := range matches {
+		for _, match := range matchesOne {
+			mul := line[match[0]:match[1]]
+			nums := utils.ExtractNums(mul)
+			sum1 += nums[0] * nums[1]
+		}
+
+		matchesTwo := regex2.FindAllString(line, -1)
+
+		for _, item := range matchesTwo {
 			switch item {
 			case "don't()":
 				enabled = false
@@ -43,16 +36,11 @@ func PartTwo() {
 			default:
 				if enabled {
 					nums := utils.ExtractNums(item)
-					sum += nums[0] * nums[1]
+					sum2 += nums[0] * nums[1]
 				}
 			}
 		}
 	}
 
-	fmt.Println(sum)
-}
-
-func main() {
-	PartOne()
-	PartTwo()
+	fmt.Printf("%d\n%d\n", sum1, sum2)
 }

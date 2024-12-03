@@ -1,0 +1,25 @@
+#!/bin/sh
+
+[ -z "$ADVENT_OF_CODE" ] && echo "Please make sure you have \$ADVENT_OF_CODE set to your login session." && exit 1
+
+year=$(date +%Y)
+day=$(date +%d | grep -oE "[1-9]+")
+
+day_dir="$year/day$day"
+mkdir -p "$day_dir"
+
+main_file="$day_dir/main.go"
+input_file="$day_dir/input"
+
+[ ! -f "$main_file" ] && printf "package main\n\nfunc main() {\n\n}\n" > "$main_file"
+
+curl -fsSL -b "$ADVENT_OF_CODE" "https://adventofcode.com/$year/day/$day/input" -o "$input_file" || {
+    echo "Error: Failed to download input for day $day."
+    exit 1
+}
+
+# Open up the puzzel stuff in brave
+hyprctl dispatch workspace 2
+brave "https://adventofcode.com/$year/day/$day"
+
+nvim $main_file
