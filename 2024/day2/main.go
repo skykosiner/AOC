@@ -1,8 +1,7 @@
-package daytwo
+package main
 
 import (
 	"fmt"
-	"log/slog"
 	"math"
 	"strconv"
 	"strings"
@@ -24,11 +23,7 @@ type Level struct {
 
 func PartOne() {
 	var safeLevels int
-	lines, err := utils.ReadFile("./pkg/day-two/input")
-	if err != nil {
-		slog.Error("Error reading input file.", "error", err)
-		return
-	}
+	lines := utils.ReadFile("./input")
 
 OuterLoop:
 	for _, line := range lines {
@@ -86,11 +81,7 @@ OuterLoop:
 
 func PartTwo() {
 	var safeLevels int
-	lines, err := utils.ReadFile("./pkg/day-two/input")
-	if err != nil {
-		slog.Error("Error reading input file.", "error", err)
-		return
-	}
+	lines := utils.ReadFile("./input")
 
 OuterLoop:
 	for _, line := range lines {
@@ -134,7 +125,7 @@ OuterLoop:
 		badLevel := false
 		for idx := range levels {
 			if idx != 0 {
-				diff := int(math.Abs(float64(levels[idx].value) - float64(levels[idx-1].value)))
+				diff := int(math.Abs(float64(levels[idx].value - levels[idx-1].value)))
 				if (diff < 1 || diff > 3) || (levels[idx].incOrDec != levels[idx-1].incOrDec) {
 					if badLevel {
 						continue OuterLoop
@@ -149,4 +140,9 @@ OuterLoop:
 	}
 
 	fmt.Println(safeLevels)
+}
+
+func main() {
+	PartOne()
+	PartTwo()
 }

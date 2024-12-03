@@ -1,8 +1,8 @@
-package dayone
+package main
 
 import (
 	"fmt"
-	"log/slog"
+	"math"
 	"slices"
 	"strconv"
 	"strings"
@@ -39,28 +39,15 @@ func leftRightsides(lines []string) ([]int, []int) {
 }
 
 func PartOne() {
-	var distances []int
-
-	lines, err := utils.ReadFile("./pkg/day-one/input")
-	if err != nil {
-		slog.Error("Error reading input file.", "error", err)
-		return
-	}
-
+	lines := utils.ReadFile("./input")
 	left, right := leftRightsides(lines)
 
 	slices.Sort(left)
 	slices.Sort(right)
 
+	distances := make([]int, len(left))
 	for idx := range left {
-		l := left[idx]
-		r := right[idx]
-
-		if l > r {
-			distances = append(distances, int(left[idx]-right[idx]))
-		} else {
-			distances = append(distances, int(right[idx]-left[idx]))
-		}
+		distances[idx] = int(math.Abs(float64(left[idx] - right[idx])))
 	}
 
 	fmt.Println(utils.Sum(distances))
@@ -70,12 +57,7 @@ func PartTwo() {
 	var items []Item
 	var similarities []int
 
-	lines, err := utils.ReadFile("./pkg/day-one/input")
-	if err != nil {
-		slog.Error("Error reading input file.", "error", err)
-		return
-	}
-
+	lines := utils.ReadFile("./input")
 	left, right := leftRightsides(lines)
 
 	for _, l := range left {
@@ -97,4 +79,9 @@ func PartTwo() {
 	}
 
 	fmt.Println(utils.Sum(similarities))
+}
+
+func main() {
+	PartOne()
+	PartTwo()
 }
