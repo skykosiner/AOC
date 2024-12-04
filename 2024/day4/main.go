@@ -6,6 +6,12 @@ import (
 	"github.com/skykosiner/AOC/pkg/utils"
 )
 
+type Pattern struct {
+	value string
+	row   int
+	col   int
+}
+
 func countXmas(lines []string, x, y int) int {
 	count := 0
 
@@ -36,17 +42,79 @@ func countXmas(lines []string, x, y int) int {
 	return count
 }
 
+func findXMas(x, y int, pattern []Pattern, lines []string) bool {
+	for _, p := range pattern {
+		newX := p.row + x
+		newY := p.col + y
+
+		if newX < 0 || newX >= len(lines) || newY < 0 || newY >= len(lines[newX]) {
+			return false
+		}
+
+		if string(lines[newX][newY]) != p.value {
+			return false
+		}
+	}
+	return true
+}
+
 func main() {
-	count := 0
+	// Part One
+	countPartOne := 0
 	lines := utils.ReadFile("./input")
 
 	for x := range lines {
 		for y := range lines[x] {
 			if lines[x][y] == 'X' {
-				count += countXmas(lines, x, y)
+				countPartOne += countXmas(lines, x, y)
 			}
 		}
 	}
 
-	fmt.Println(count)
+	fmt.Println(countPartOne)
+
+	patterns := [][]Pattern{
+		{
+			{"M", -1, -1},
+			{"S", -1, 1},
+			{"A", 0, 0},
+			{"M", 1, -1},
+			{"S", 1, 1},
+		},
+		{
+			{"S", -1, -1},
+			{"M", 1, -1},
+			{"A", 0, 0},
+			{"S", -1, 1},
+			{"M", 1, 1},
+		},
+		{
+			{"S", 1, -1},
+			{"M", 1, 1},
+			{"A", 0, 0},
+			{"S", -1, -1},
+			{"M", -1, 1},
+		},
+		{
+			{"M", -1, 1},
+			{"S", 1, 1},
+			{"A", 0, 0},
+			{"M", -1, -1},
+			{"S", 1, -1},
+		},
+	}
+
+	// Part Two
+	countPartTwo := 0
+	for x := range lines {
+		for y := range lines[x] {
+			for _, pattern := range patterns {
+				if findXMas(x, y, pattern, lines) {
+					countPartTwo += 1
+				}
+			}
+		}
+	}
+
+	fmt.Println(countPartTwo)
 }
