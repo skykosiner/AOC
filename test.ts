@@ -1,6 +1,5 @@
 const test: string[] = [];
 
-test.push("X")
-test.push("M")
+test.push("hello")
 
 console.log(test[0][1]);
