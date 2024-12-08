@@ -11,11 +11,17 @@ import (
 func ReadFile(path string) []string {
 	bytes, err := os.ReadFile(path)
 	if err != nil {
-		slog.Error("Cloudn't read file provided.", "path", path, "error", err)
+		slog.Error("Couldn't read file provided.", "path", path, "error", err)
 		os.Exit(1)
 	}
 
-	return strings.Split(string(bytes), "\n")
+	// Split the content into lines and trim whitespace from each line
+	lines := strings.Split(string(bytes), "\n")
+	for i := range lines {
+		lines[i] = strings.TrimSpace(lines[i]) // Trim leading and trailing spaces/newlines
+	}
+
+	return lines
 }
 
 func ExtractNums(line string) []int {
