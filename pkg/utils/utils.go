@@ -45,3 +45,13 @@ func Sum(items []int) int {
 
 	return sum
 }
+
+func ReplaceAt(s string, index int, replacement rune) string {
+	runes := []rune(s) // Convert string to rune slice
+	if index < 0 || index >= len(runes) {
+		return s // Return the original string if the index is out of range
+	}
+
+	runes[index] = replacement // Replace the character
+	return string(runes)       // Convert back to string and return
+}

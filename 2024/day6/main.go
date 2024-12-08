@@ -31,14 +31,14 @@ func walk(x, y, dir int, seen [][]bool, lines []string, visited *int) bool {
 		seen[nextRow][nextCol] = true
 		*visited++
 	}
+
 	return walk(nextRow, nextCol, dir, seen, lines, visited)
 }
 
 func main() {
-	// var sum1 int
 	var startX, startY int
 
-	lines := utils.ReadFile("./input")
+	lines := utils.ReadFile("./input.test")
 	seen := make([][]bool, len(lines))
 	for i := range seen {
 		seen[i] = make([]bool, len(lines[i]))
@@ -53,9 +53,10 @@ func main() {
 	}
 
 	visited := 1
+	seen[startX][startY] = true
 
 	if walk(startX, startY, 0, seen, lines, &visited) {
-		fmt.Println(visited)
+		fmt.Println("Part One:", visited)
 	} else {
 		fmt.Println("Can't solve??")
 	}
