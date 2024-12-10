@@ -2,7 +2,7 @@
 
 [ -z "$ADVENT_OF_CODE" ] && echo "Please make sure you have \$ADVENT_OF_CODE set to your login session." && exit 1
 
-day=$(date +%d | grep -oE "[1-9]+")
+day=$(date +%d | grep -oE "[1-9].*")
 year=$(date +%Y)
 
 [ -n "$1" ] && day="$1"
