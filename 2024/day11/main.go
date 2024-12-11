@@ -8,48 +8,89 @@ import (
 	"github.com/skykosiner/AOC/pkg/utils"
 )
 
-func main() {
-	var stones []int
+func partOne() int {
 	line := utils.ReadFile("./input")[0]
+	stones := make(map[int]int)
 
 	for _, num := range strings.Split(line, " ") {
 		n, _ := strconv.Atoi(num)
-		stones = append(stones, n)
+		stones[n]++
 	}
 
-	for i := range 75 {
-		fmt.Println(i)
-		newStones := make([]int, 0, len(stones)*2) // Preallocate for possible splits
-
-		for idx := range stones {
-			if stones[idx] == 0 {
-				newStones = append(newStones, 1)
+	for range 25 {
+		cache := make(map[int]int)
+		for stone, count := range stones {
+			if stone == 0 {
+				cache[1] += count
 				continue
-			}
-
-			str := strconv.Itoa(stones[idx])
-			if len(str)%2 == 0 {
-				midpoint := 1
-				for j := 1; j < len(str)/2; j++ {
-					midpoint *= 10
-				}
-
-				stoneOne := stones[idx] / midpoint
-				stoneTwo := stones[idx] % midpoint
-
-				newStones = append(newStones, stoneOne, stoneTwo)
-
-				// Insert the split stones in the slice
-				// stones[idx] = stoneOne
-				// stones = append(stones[:idx+1], append([]int{stoneTwo}, stones[idx+1:]...)...)
-				// idx++ // Skip the newly inserted stoneTwo
 			} else {
-				newStones = append(newStones, stones[idx]*2024)
+				str := strconv.Itoa(stone)
+				if len(str)%2 == 0 {
+					mid := len(str) / 2
+					first, _ := strconv.Atoi(str[:mid])
+					second, _ := strconv.Atoi(str[mid:])
+					cache[first] += count
+					cache[second] += count
+				} else {
+					multiplied := stone * 2024
+					cache[multiplied] += count
+				}
 			}
 		}
 
-		stones = newStones
+		stones = cache
 	}
 
-	fmt.Println(len(stones))
+	sum := 0
+	for _, count := range stones {
+		sum += count
+	}
+
+	return sum
+}
+
+func partTwo() int {
+	line := utils.ReadFile("./input")[0]
+	stones := make(map[int]int)
+
+	for _, num := range strings.Split(line, " ") {
+		n, _ := strconv.Atoi(num)
+		stones[n]++
+	}
+
+	for range 75 {
+		cache := make(map[int]int)
+		for stone, count := range stones {
+			if stone == 0 {
+				cache[1] += count
+				continue
+			} else {
+				str := strconv.Itoa(stone)
+				if len(str)%2 == 0 {
+					mid := len(str) / 2
+					first, _ := strconv.Atoi(str[:mid])
+					second, _ := strconv.Atoi(str[mid:])
+					cache[first] += count
+					cache[second] += count
+				} else {
+					multiplied := stone * 2024
+					cache[multiplied] += count
+				}
+			}
+		}
+
+		stones = cache
+	}
+
+	sum := 0
+	for _, count := range stones {
+		sum += count
+	}
+
+	return sum
+}
+
+func main() {
+	fmt.Println("Part One:", partOne())
+	fmt.Println("Part Two:", partTwo())
 }
