@@ -40,8 +40,8 @@ func loop(stones map[int]int, cache map[int]int) {
 
 func main() {
 	line := utils.ReadFile("./input")[0]
-	stones := make(map[int]int)
 
+	stones := make(map[int]int)
 	for _, num := range strings.Split(line, " ") {
 		n, _ := strconv.Atoi(num)
 		stones[n]++
@@ -52,23 +52,20 @@ func main() {
 		loop(stones, cache)
 		stones = cache
 	}
-	fmt.Println("Part One", utils.Sum(stones))
+
+	fmt.Println("Part One", sum(stones))
 
 	stones = make(map[int]int)
 	for _, num := range strings.Split(line, " ") {
 		n, _ := strconv.Atoi(num)
 		stones[n]++
 	}
+
 	for range 75 {
 		cache := make(map[int]int)
 		loop(stones, cache)
 		stones = cache
 	}
 
-	sumTwo := 0
-	for _, count := range stones {
-		sumTwo += count
-	}
-
-	fmt.Println("Part Two", sumTwo)
+	fmt.Println("Part Two", sum(stones))
 }
