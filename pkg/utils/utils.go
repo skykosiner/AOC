@@ -27,7 +27,7 @@ func ReadFile(path string) []string {
 func ExtractNums(line string) []int {
 	var nums []int
 
-	regex := regexp.MustCompile(`\d+`)
+	regex := regexp.MustCompile(`\-?\d+`)
 	matches := regex.FindAllString(line, -1)
 
 	for _, match := range matches {
