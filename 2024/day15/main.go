@@ -89,9 +89,9 @@ func main() {
 
 func canMoveBoxes(grid [][]byte, x, y, dr, dc int) bool {
 	for x >= 0 && x < len(grid) && y >= 0 && y < len(grid[0]) {
-		if grid[x][y] == '.' {
+		if grid[x][y] == '.' { // Reached an empty space
 			return true
-		} else if grid[x][y] == '#' {
+		} else if grid[x][y] == '#' { // Hit a wall
 			return false
 		}
 		x += dr
@@ -100,13 +100,15 @@ func canMoveBoxes(grid [][]byte, x, y, dr, dc int) bool {
 	return false
 }
 
+// Helper function to move all boxes in the direction
 func moveBoxes(grid [][]byte, x, y, dr, dc int) {
 	var positions [][]int
 
+	// Collect all box positions to move
 	for x >= 0 && x < len(grid) && y >= 0 && y < len(grid[0]) {
 		if grid[x][y] == 'O' {
 			positions = append(positions, []int{x, y})
-		} else if grid[x][y] == '.' {
+		} else if grid[x][y] == '.' { // Reached an empty space
 			break
 		}
 		x += dr
