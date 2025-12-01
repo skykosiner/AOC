@@ -23,6 +23,6 @@ curl -fsSL -b "$ADVENT_OF_CODE" "https://adventofcode.com/$year/day/$day/input" 
 
 # Open up the puzzel stuff in brave
 hyprctl dispatch workspace 2
-brave "https://adventofcode.com/$year/day/$day"
+zen "https://adventofcode.com/$year/day/$day"
 
 nvim $main_file

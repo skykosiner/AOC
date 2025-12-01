@@ -2,6 +2,8 @@ import heapq
 
 grid = [list(line.strip()) for line in open("./input")]
 
+print()
+
 rows = len(grid)
 cols = len(grid[0])
 
@@ -17,6 +19,7 @@ for r in range(rows):
 
 pq = [(0, sr, sc, 0, 1)]
 seen = {(sr, sc, 0, 1)}
+
 
 while pq:
     cost, r, c, dr, dc = heapq.heappop(pq)
