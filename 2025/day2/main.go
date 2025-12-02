@@ -41,10 +41,25 @@ func validID(x int) bool {
 	return true
 }
 
+func validIDPartTwo(x int) bool {
+	check := strconv.Itoa(x)
+
+	if len(check) < 2 {
+		return true
+	}
+
+	if strings.Contains((check + check)[1:len(check+check)-1], check) {
+		fmt.Println(check)
+		return false
+	}
+
+	return true
+}
+
 func main() {
 	var ranges [][]int
 
-	for _, item := range strings.Split(utils.ReadFile("./input.test")[0], ",") {
+	for _, item := range strings.Split(utils.ReadFile("./input")[0], ",") {
 		items := strings.Split(item, "-")
 		num1, _ := strconv.Atoi(items[0])
 		num2, _ := strconv.Atoi(items[1])
@@ -52,15 +67,20 @@ func main() {
 		ranges = append(ranges, []int{num1, num2})
 	}
 
-	sum := 0
+	partOne := 0
+	partTwo := 0
 	for _, r := range ranges {
 		for _, id := range getNumbersBetween(r[0], r[1]) {
 			if !validID(id) {
-				fmt.Println(id)
-				sum += id
+				partOne += id
+			}
+
+			if !validIDPartTwo(id) {
+				partTwo += id
 			}
 		}
 	}
 
-	fmt.Println(sum)
+	fmt.Println(partOne)
+	fmt.Println(partTwo)
 }
