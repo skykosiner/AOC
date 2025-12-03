@@ -49,7 +49,6 @@ func validIDPartTwo(x int) bool {
 	}
 
 	if strings.Contains((check + check)[1:len(check+check)-1], check) {
-		fmt.Println(check)
 		return false
 	}
 
