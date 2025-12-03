@@ -8,13 +8,37 @@ year=$(date +%Y)
 [ -n "$1" ] && day="$1"
 [ -n "$2" ] && year="$2"
 
-day_dir="$year/day$day"
+day_dir="$year/$day"
 mkdir -p "$day_dir"
 
 main_file="$day_dir/main.go"
 input_file="$day_dir/input"
 
-[ ! -f "$main_file" ] && printf "package main\n\nfunc main() {\n\n}\n" > "$main_file"
+# [ ! -f "$main_file" ] && printf "package main\n\nfunc main() {\n\n}\n" > "$main_file"
+[ ! -f "$main_file" ] && cat > "$main_file" <<- EOM
+package main
+
+import (
+    "flag"
+
+	"github.com/skykosiner/AOC/pkg/utils"
+)
+
+func main() {
+	test := flag.Bool("test", false, "Run test case or not")
+	flag.Parse()
+
+	var inputFile string
+	if *test {
+		inputFile = "./input.test"
+	} else {
+		inputFile = "./input"
+	}
+
+	lines := utils.ReadFile(inputFile)
+}
+EOM
+
 
 curl -fsSL --cookie "$ADVENT_OF_CODE" "https://adventofcode.com/$year/day/$day/input" -o "$input_file" || {
     echo "Error: Failed to download input for day $day."
