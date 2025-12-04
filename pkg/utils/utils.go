@@ -15,10 +15,13 @@ func ReadFile(path string) []string {
 		os.Exit(1)
 	}
 
-	// Split the content into lines and trim whitespace from each line
-	lines := strings.Split(string(bytes), "\n")
+	content := string(bytes)
+	content = strings.TrimSuffix(content, "\n")
+	content = strings.TrimSuffix(content, "\r")
+
+	lines := strings.Split(content, "\n")
 	for i := range lines {
-		lines[i] = strings.TrimSpace(lines[i]) // Trim leading and trailing spaces/newlines
+		lines[i] = strings.TrimSpace(lines[i])
 	}
 
 	return lines

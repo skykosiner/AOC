@@ -14,7 +14,6 @@ mkdir -p "$day_dir"
 main_file="$day_dir/main.go"
 input_file="$day_dir/input"
 
-# [ ! -f "$main_file" ] && printf "package main\n\nfunc main() {\n\n}\n" > "$main_file"
 [ ! -f "$main_file" ] && cat > "$main_file" <<- EOM
 package main
 
@@ -45,7 +44,7 @@ curl -fsSL --cookie "$ADVENT_OF_CODE" "https://adventofcode.com/$year/day/$day/i
     exit 1
 }
 
-# Open up the puzzel stuff in zen
+# Open up the puzzle stuff in zen
 hyprctl dispatch workspace 2
 zen "https://adventofcode.com/$year/day/$day"
 
