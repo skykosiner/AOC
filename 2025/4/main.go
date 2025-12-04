@@ -36,12 +36,15 @@ func neighbourCount(lines []string, x, y int) bool {
 	return count < 4
 }
 
-func countNeighbours(lines []string) int {
+func countNeighbours(lines []string, partTwo bool) int {
 	count := 0
 	for x := range lines {
 		for y := 0; y < len(lines[x]); y++ {
 			if ok := neighbourCount(lines, x, y); ok {
-				lines[x] = utils.ReplaceAt(lines[x], y, '.')
+				if partTwo {
+					lines[x] = utils.ReplaceAt(lines[x], y, '.')
+				}
+
 				count++
 			}
 		}
@@ -63,29 +66,17 @@ func main() {
 
 	lines := utils.ReadFile(inputFile)
 
-	partOne, partTwo := 0, 0
-	for x := range lines {
-		for y := 0; y < len(lines[x]); y++ {
-			if ok := neighbourCount(lines, x, y); ok {
-				partOne++
-			}
-		}
-	}
+	partOne, partTwo := countNeighbours(lines, false), 0
 
 	number := 1
-
 	for {
 		if number == 0 {
 			break
 		}
-		number = countNeighbours(lines)
+
+		number = countNeighbours(lines, true)
 		partTwo += number
 	}
 
-	for _, line := range lines {
-		fmt.Println(line)
-	}
-
-	fmt.Println(partOne)
-	fmt.Println(partTwo)
+	fmt.Println(partOne, partTwo)
 }
