@@ -3,11 +3,29 @@ package main
 import (
 	"flag"
 	"fmt"
+	"math"
+	"slices"
 	"strconv"
 	"strings"
 
 	"github.com/skykosiner/AOC/pkg/utils"
 )
+
+func merge(fresh [][]int) []int {
+	var mergedArr []int
+
+	for _, f := range fresh {
+		slices.Sort(f)
+	}
+
+	for i := 1; i < len(fresh); i++{
+		if (fresh[i][0] >= fresh[i-1][0]) && (fresh[i][0] <= fresh[i-1][1]) {
+			fmt.Println(math.Max(float64(fresh[i-1][1]), float64(fresh[i][1])))
+		}
+	}
+
+	return mergedArr
+}
 
 func main() {
 	test := flag.Bool("test", false, "Run test case or not")
@@ -75,24 +93,7 @@ func main() {
 	// Run 20-10+1=11
 	// 3+5+9=19
 
-
-	var mergedArr [][]int
-	curr := fresh[0]
-
-	for i := 0; i < len(fresh); i++ {
-		next := fresh[i]
-
-		if (next[0] <= curr[1]) && (next[1] > curr[1]) {
-			curr[i] = next[i]
-		} else {
-			mergedArr = append(mergedArr, curr)
-			curr = next
-		}
-	}
-
-	mergedArr = append(mergedArr, curr)
-
-	fmt.Println(mergedArr)
+	fmt.Println(merge(fresh))
 
 	fmt.Println(partOne)
 	fmt.Println(partTwo)
