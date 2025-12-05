@@ -64,3 +64,13 @@ func ReplaceAt(s string, index int, replacement rune) string {
 	runes[index] = replacement // Replace the character
 	return string(runes)       // Convert back to string and return
 }
+
+func Range(x, y int) []int {
+	var nums []int
+
+	for i := x; i <= y; i++ {
+		nums = append(nums, i)
+	}
+
+	return nums
+}
