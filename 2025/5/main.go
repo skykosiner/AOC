@@ -3,29 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
-	"math"
-	"slices"
+	"sort"
 	"strconv"
 	"strings"
 
 	"github.com/skykosiner/AOC/pkg/utils"
 )
-
-func merge(fresh [][]int) []int {
-	var mergedArr []int
-
-	for _, f := range fresh {
-		slices.Sort(f)
-	}
-
-	for i := 1; i < len(fresh); i++{
-		if (fresh[i][0] >= fresh[i-1][0]) && (fresh[i][0] <= fresh[i-1][1]) {
-			fmt.Println(math.Max(float64(fresh[i-1][1]), float64(fresh[i][1])))
-		}
-	}
-
-	return mergedArr
-}
 
 func main() {
 	test := flag.Bool("test", false, "Run test case or not")
@@ -93,7 +76,31 @@ func main() {
 	// Run 20-10+1=11
 	// 3+5+9=19
 
-	fmt.Println(merge(fresh))
+	// var ranges []Range
+	sort.Slice(fresh, func(i, j int) bool {
+		return fresh[i][0] < fresh[j][0]
+	})
+
+	merged := fresh[:0]
+	currStart, currEnd := fresh[0][0], fresh[0][1]
+	for i := 1; i < len(fresh); i++ {
+		start, end := fresh[i][0], fresh[i][1]
+		if start <= currEnd { // it overlaps
+			if end > currEnd {
+				currEnd = end
+			}
+		} else {
+			merged = append(merged, []int{currStart, currEnd})
+			currStart, currEnd = start, end
+		}
+	}
+
+	merged = append(merged, []int{currStart, currEnd})
+
+	for _, r := range merged {
+		fmt.Println(r)
+		partTwo += r[1] - r[0] + 1
+	}
 
 	fmt.Println(partOne)
 	fmt.Println(partTwo)

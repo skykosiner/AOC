@@ -65,10 +65,9 @@ func main() {
 	}
 
 	lines := utils.ReadFile(inputFile)
-
 	partOne, partTwo := countNeighbours(lines, false), 0
-
 	number := 1
+
 	for {
 		if number == 0 {
 			break
